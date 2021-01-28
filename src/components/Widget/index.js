@@ -11,7 +11,7 @@ export const Widget = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Potta+One&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Potta+One&family=Shadows+Into+Light&display=swap');
 
-  h1 {
+  h2 {
     font-family: 'Potta One', cursive;
     font-size: 16px;
     font-weight: 700;
@@ -21,7 +21,7 @@ export const Widget = styled.div`
     margin-bottom: 0;
   }
 
-    h2, h3 {
+    h1, h3 {
     font-family: 'Potta One', cursive;
     font-size: 16px;
     font-weight: 700;
@@ -61,5 +61,24 @@ Widget.Content = styled.div`
     padding: 0;
   }
 `;
+
+Widget.Topic = styled.a`
+  outline: 0;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.contrastText};
+  background-color: ${({ theme }) => `${theme.colors.primary}40`};
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  transition: .3s;
+  display: block;
+  
+  &:hover,
+  &:focus {
+    opacity: .5;
+  }
+`;
+
 
 export default Widget;
