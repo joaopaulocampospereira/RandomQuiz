@@ -6,16 +6,16 @@ import QuizContainer from '../src/components/QuizContainer';
 import Button from '../src/components/Button';
 
 function LoadingWidget() {
-    return ( 
-        <Widget>
-            <Widget.Header>
-                Carregando...
-            </Widget.Header>
-  
-            <Widget.Content>
-                [Desafio do Loading]
-            </Widget.Content>
-        </Widget>
+  return ( 
+    <Widget>
+      <Widget.Header>
+        Carregando...
+      </Widget.Header>
+
+      <Widget.Content>
+        [Desafio do Loading]
+      </Widget.Content>
+    </Widget>
     );
   }
   
@@ -25,7 +25,10 @@ function LoadingWidget() {
     totalQuestions,
     onSubmit,
   }) {
+    const [selectedAlternative, setSelectedAlternative] = React.useState(undefined);
+    const [isQuestionSubmited, setIsQuestionSubmited] = React.useState();
     const questionId = `question__${questionIndex}`;
+    const isCorrect = selectedAlternative === question.answer;
     return (
       <Widget>
         <Widget.Header>
@@ -55,7 +58,12 @@ function LoadingWidget() {
           <form
             onSubmit={(infosDoEvento) => {
               infosDoEvento.preventDefault();
-              onSubmit();
+              setIsQuestionSubmited(true);
+              setTimeout(() => {
+                onSubmit();
+                setIsQuestionSubmited(false);
+                setSelectedAlternative(undefined);
+              }, 2 * 1000);
             }}
           >
             {question.alternatives.map((alternative, alternativeIndex) => {
@@ -69,7 +77,10 @@ function LoadingWidget() {
                     // style={{ display: 'none' }}
                     id={alternativeId}
                     name={questionId}
+                    onChange={() => setSelectedAlternative(alternativeIndex)}
                     type="radio"
+                    value={selectedAlternative}
+                    checked={selectedAlternative != undefined}
                   />
                   {alternative}
                 </Widget.Topic>
@@ -79,9 +90,12 @@ function LoadingWidget() {
             {/* <pre>
               {JSON.stringify(question, null, 4)}
             </pre> */}
-            <Button type="submit">
+            <Button type="submit" disabled={selectedAlternative == undefined || isQuestionSubmited == true}>
               Confirmar
             </Button>
+            <p>selectedAlternative: {`${selectedAlternative}`}</p>
+            {isQuestionSubmited && isCorrect && <p>Acerto mizerávi</p>}
+            {isQuestionSubmited && !isCorrect && <p>Errou feio, errou rude!</p>}
           </form>
         </Widget.Content>
       </Widget>
